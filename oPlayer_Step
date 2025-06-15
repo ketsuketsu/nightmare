@@ -1,0 +1,105 @@
+
+if (can_move) {	
+	right_key = keyboard_check(ord("D"));
+	left_key = keyboard_check(ord("A"));
+	up_key = keyboard_check(ord("W"));
+	down_key = keyboard_check(ord("S"));
+		can_move = true;
+	
+	} else
+	{
+	can_move = false;
+	}
+	
+
+//get xspd and yspd
+xspd = (right_key - left_key) * move_spd;
+yspd = (down_key - up_key) * move_spd;
+
+//running 
+if (keyboard_check(vk_shift)) {
+	running = true;
+} else
+	{
+	running = false;
+	}
+move_spd = base_spd;
+if (running) {
+	move_spd *= run_multiplier;
+	sprite_set_speed(sprite_index,10,spritespeed_framespersecond);
+	}
+	
+
+//set sprite
+mask_index = sprite[DOWN];
+if yspd == 0
+	{
+	if xspd > 0 {face = RIGHT};
+	if xspd < 0 {face = LEFT};
+	}
+if xspd > 0 && face == LEFT {face = RIGHT};
+if xspd < 0 && face == RIGHT {face = LEFT};
+if xspd == 0
+	{
+	if yspd > 0 {face = DOWN};
+	if yspd < 0 {face = UP};
+	}
+if yspd > 0 && face == UP {face = DOWN};
+if yspd < 0 && face == DOWN {face = UP};
+sprite_index = sprite[face];
+
+//collisions
+if place_meeting(x + xspd, y, oWall) == true
+	{
+	xspd = 0;
+	}
+	
+if place_meeting(x, y + yspd, oWall) == true
+	{
+	yspd = 0;
+	}	
+	
+	//warper pause collission before entering new room
+if instance_exists(oPauser)
+	{
+	xspd=0;
+	yspd=0;
+	}
+	
+	//textbox stop collission 
+if instance_exists(oTextBox)
+	{
+	depth = -bbox_bottom;
+	can_move = false;
+	} else{
+	
+	can_move = true;
+	}
+
+//move the player
+x += xspd; 
+y += yspd;
+
+//animate
+if xspd == 0 && yspd == 0 && face == DOWN 
+	{
+	sprite_index = sprRIdle;
+	}
+if xspd == 0 && yspd == 0 && face == LEFT
+{
+	image_index= 0;
+}
+
+if xspd == 0 && yspd == 0 && face == RIGHT
+{
+	image_index= 0;
+}
+
+if xspd == 0 && yspd == 0 && face == UP
+{
+	image_index= 0;
+}
+
+
+//depth
+depth = -bbox_bottom;
