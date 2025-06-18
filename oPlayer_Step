@@ -33,11 +33,14 @@ if (can_move) {
 // 5. set sprite by direction
 
 mask_index = sprite[DOWN];
-if (xspd != 0 || yspd != 0) { //esta parte estas declarando igual entonces puedes volverlo un OR
-    if (xspd > 0) face = RIGHT;
-    else if (xspd < 0) face = LEFT;
-    else if (yspd > 0) face = DOWN;
-    else if (yspd < 0) face = UP;
+if (xspd != 0 || yspd != 0) { 
+    if ((xspd > 0) > abs(yspd)){
+	if (xspd > 0) face = RIGHT;
+	else face = LEFT;
+    } else {
+	if (yspd > 0) face = DOWN
+   	else face = UP;
+    }
 }
 sprite_index = sprite[face];
 
