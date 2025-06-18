@@ -1,34 +1,23 @@
-
+//movement ability
 if (can_move) {	
 	right_key = keyboard_check(ord("D"));
 	left_key = keyboard_check(ord("A"));
 	up_key = keyboard_check(ord("W"));
 	down_key = keyboard_check(ord("S"));
-		can_move = true;
 	
-	} else
+	
+	} else 
 	{
-	can_move = false;
+		xspd = 0;
+		yspd = 0;
+		can_move =false;
 	}
 	
-
+	
 //get xspd and yspd
 xspd = (right_key - left_key) * move_spd;
 yspd = (down_key - up_key) * move_spd;
 
-//running 
-if (keyboard_check(vk_shift)) {
-	running = true;
-} else
-	{
-	running = false;
-	}
-move_spd = base_spd;
-if (running) {
-	move_spd *= run_multiplier;
-	sprite_set_speed(sprite_index,10,spritespeed_framespersecond);
-	}
-	
 
 //set sprite
 mask_index = sprite[DOWN];
@@ -59,6 +48,8 @@ if place_meeting(x, y + yspd, oWall) == true
 	yspd = 0;
 	}	
 	
+	
+	
 	//warper pause collission before entering new room
 if instance_exists(oPauser)
 	{
@@ -66,11 +57,13 @@ if instance_exists(oPauser)
 	yspd=0;
 	}
 	
-	//textbox stop collission 
-if instance_exists(oTextBox)
+	//textbox stop moving
+if instance_exists(oTextBox) 
 	{
-	depth = -bbox_bottom;
 	can_move = false;
+	depth = -bbox_bottom;
+
+
 	} else{
 	
 	can_move = true;
@@ -83,22 +76,69 @@ y += yspd;
 //animate
 if xspd == 0 && yspd == 0 && face == DOWN 
 	{
-	sprite_index = sprRIdle;
+	sprite_index = sprRed_Idle;
+	sprite_set_speed(sprite_index, 2, spritespeed_framespersecond); 
 	}
 if xspd == 0 && yspd == 0 && face == LEFT
 {
 	image_index= 0;
+
 }
 
 if xspd == 0 && yspd == 0 && face == RIGHT
 {
 	image_index= 0;
+
 }
 
 if xspd == 0 && yspd == 0 && face == UP
 {
 	image_index= 0;
+
 }
+
+		//asleep player when starting game in bath_start
+if (room == rmBath_Start) 
+{
+//cant move
+can_move = false;
+
+
+//set sleeping sprite
+sprite_index = spr_sleeping;
+sprite_set_speed(sprite_index, 2, spritespeed_framespersecond); 
+
+} 
+//waking player when in bath_start2
+else if (room == rmBath_Start_2) 
+{
+can_move = false;
+//set waking sprite
+sprite_index = spr_waking;
+sprite_set_speed(sprite_index, 3, spritespeed_framespersecond); 
+
+}
+
+
+else { 
+	//take out of passiv
+	can_move = true;
+	sprite_set_speed(sprite_index, 8, spritespeed_framespersecond); }
+	
+	
+
+//running 
+if (keyboard_check(vk_shift)) {
+	running = true;
+} else
+	{
+	running = false;
+	}
+move_spd = base_spd;
+if (running) {
+	move_spd *= run_multiplier;
+	sprite_set_speed(sprite_index, 15 ,spritespeed_framespersecond);
+	}
 
 
 //depth
