@@ -16,12 +16,11 @@ if (can_move) {
 
 	xspd = (right_key - left_key) * move_spd;
   	yspd = (down_key - up_key) * move_spd;
-
-	if (keyboard_check_pressed(ord("W"))) face = UP;
-	    else if (keyboard_check_pressed(ord("S"))) face = DOWN;
-	    else if (keyboard_check_pressed(ord("A"))) face = LEFT;
-	    else if (keyboard_check_pressed(ord("D"))) face = RIGHT;
 	
+	if (keyboard_check_pressed(ord("W"))) face = UP;
+    else if (keyboard_check_pressed(ord("S"))) face = DOWN;
+    else if (keyboard_check_pressed(ord("A"))) face = LEFT;
+    else if (keyboard_check_pressed(ord("D"))) face = RIGHT;
 } else {
 	xspd = 0;
 	yspd = 0;
@@ -38,14 +37,11 @@ if (can_move) {
 // 5. set sprite by direction
 
 mask_index = sprite[DOWN];
-if (xspd != 0 || yspd != 0) { 
-    if ((xspd > 0) > abs(yspd)){
-	if (xspd > 0) face = RIGHT;
-	else face = LEFT;
-    } else {
-	if (yspd > 0) face = DOWN
-   	else face = UP;
-    }
+if (xspd != 0 || yspd != 0) { //esta parte estas declarando igual entonces puedes volverlo un OR
+    if (xspd > 0) face = RIGHT;
+    else if (xspd < 0) face = LEFT;
+    else if (yspd > 0) face = DOWN;
+    else if (yspd < 0) face = UP;
 }
 sprite_index = sprite[face];
 
