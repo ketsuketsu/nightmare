@@ -53,12 +53,20 @@ case "red_wc":
 		
 
 case "blue_door":
-	scr_text("You can't enter this door, you're not blue.", "no-sprite");
-	scr_text_color(38, 43, c_blue, c_blue, c_blue, c_blue);
-	break;
-case "blue_door2":
-	scr_text("Door locked.", "no-sprite");
-	break;	
+    var r = irandom(2);
+    switch (r) {
+        case 0:
+            scr_text("You can't enter this door, you're not blue.", "no-sprite");
+			 scr_text_color(0, 8, c_blue, c_blue, c_blue, c_blue);
+            break;
+        case 1:
+            scr_text("This door doesn't respond to non-blue people.", "no-sprite");
+            break;
+        case 2:
+            scr_text("BLUE ACCESS ONLY. YOU ARE RED.", "no-sprite");
+            break;
+    }
+    break;
 	
 case "toilet_paper":
 	scr_text("The classic, original TP.", "no-sprite");
@@ -75,27 +83,32 @@ case "green_poster2":
 
 case "clown_ads":
 	scr_text("Paper flyers for an overnight sale event...taking place...at Gr-", "no-sprite");
-	scr_text("OH NO! NO! NO! YOU DON'T want to meddle with CLOWNS!!!", "blue-disgust", -1);
-		scr_text_shake(0,54);
-	scr_text("Wh-who.. Clowns?", "red-confused");
-		scr_option("What are clowns?", "blue - clown explanation");
-		scr_option("Do clowns live in here?", "blue - clown danger");
-			break;
-			case "blue - clown explanation":
-				scr_text("What do you mean clowns? Like the guys with the funny makeup and unfunny jokes?", "red-confused");
-				scr_text("they might look harmless but they are extremely chaotic and mischevious!", "blue-disgust", -1);
-				scr_text("Well if I get to know them they would probably turn out to be regular people in costumes.", "red");
-				scr_text("i wouldn't like that one bit...", "blue", -1);
-				scr_text("better stay away from any funny bussiness... if you catch my wing", "blue", -1);
-				break;
-			case "blue - clown danger":
-				scr_text("Are clowns living in this place?", "red-confused");
-				scr_text("since they've found a way in The Subway Station, i can't take my regular 3 pm naps anymore..", "blue-disgust", -1);
-				scr_text("all i hear are honk noises and echoed laughter, fucking clowns running around the hallways, TSK! ", "blue-disgust", -1);				
-				scr_text("if i ever CATCH ONE! they will REGRET invading my territory....", "blue-disgust", -1);	
-				scr_text_shake(0, 63);
-				break;
+	global.seen_clown_ads = true;
+	show_debug_message(">> Viste el cartel de los payasos");
+	break;
+	
+case "clown_ads - seen":
+	global.seen_clown_ads = true;
+	show_debug_message(">> FLAG activado: seen_clown_ads");
+	break;
+
+			
 case "blue":
+//crear la variable
+	if (!variable_global_exists("seen_clown_ads")) {
+	    global.seen_clown_ads = false;
+	}
+//la bandera esta activada
+	if (global.seen_clown_ads) {
+		show_debug_message(">> FLAG detectada: seen_clown_ads = TRUE");
+		scr_text("OH NO! NO! NO! YOU DON'T want to meddle with CLOWNS!!!", "blue-disgust", -1);
+			scr_text_shake(0,54);
+		scr_text("Wh-who.. Clowns?", "red-confused");
+			scr_option("What are clowns?", "blue - clown explanation");
+			scr_option("Do clowns live in here?", "blue - clown danger");
+//la bandera no esta activada		
+	} else {
+		show_debug_message(">> FLAG NO activada: seen_clown_ads = FALSE");
 		scr_text("hi Red!!!", "blue-happy", -1);
 		scr_text_color(3, 5, c_red, c_red, c_red, c_red);
 		scr_text_shake(3, 9);
@@ -104,7 +117,10 @@ case "blue":
 		scr_text("Um...", "red-confused");
 			scr_option("I'm fine.", "blue - fine");
 			scr_option("Who are you?", "blue - who");
-		break;
+	}
+	break;
+	
+		//casos de dialogos
 			case "blue - fine":
 				scr_text("I'm feeling better... I think.", "red");
 				scr_text("you didn't look too good before girlie", "blue",-1);
@@ -121,8 +137,20 @@ case "blue":
 				scr_text("I don't recall being your friend...", "red-confused");
 				scr_text("...but I guess I am.", "red");
 					break;	
-	
+					
+			case "blue - clown explanation":
+				scr_text("What do you mean clowns? Like the guys with the funny makeup and unfunny jokes?", "red-confused");
+				scr_text("they might look harmless but they are extremely chaotic and mischevious!", "blue-disgust", -1);
+				scr_text("Well if I get to know them they would probably turn out to be regular people in costumes.", "red");
+				scr_text("i wouldn't like that one bit...", "blue", -1);
+				scr_text("better stay away from any funny bussiness... if you catch my wing", "blue", -1);
+				break;
+			case "blue - clown danger":
+				scr_text("Are clowns living in this place?", "red-confused");
+				scr_text("since they've found a way in The Subway Station, i can't take my regular 3 pm naps anymore..", "blue-disgust", -1);
+				scr_text("all i hear are honk noises and echoed laughter, fucking clowns running around the hallways, TSK! ", "blue-disgust", -1);				
+				scr_text("if i ever CATCH ONE! they will REGRET invading my territory....", "blue-disgust", -1);	
+				scr_text_shake(0, 63);
+				break;
 	}
-
 }
-
