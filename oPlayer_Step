@@ -1,145 +1,77 @@
-//movement ability
+//1. Verification in the movement
+
+if (instance_exists(oTextBox) || instance_exists(oPauser) || room == rmBath_Start || room == rmBath_Start_2) {
+    can_move = false;
+} else {
+    can_move = true;
+}
+
+//2. movement ability ONLY if it can
+
 if (can_move) {	
 	right_key = keyboard_check(ord("D"));
 	left_key = keyboard_check(ord("A"));
 	up_key = keyboard_check(ord("W"));
 	down_key = keyboard_check(ord("S"));
-	
-	
-	} else 
-	{
-		xspd = 0;
-		yspd = 0;
-		can_move =false;
-	}
-	
-	
-//get xspd and yspd
-xspd = (right_key - left_key) * move_spd;
-yspd = (down_key - up_key) * move_spd;
 
+	xspd = (right_key - left_key) * move_spd;
+  	yspd = (down_key - up_key) * move_spd;
+	
+} else {
+	xspd = 0;
+	yspd = 0;
+}
 
-//set sprite
+// 3. Collisions
+	if (place_meeting(x + xspd, y, oWall)) xspd = 0;
+	if (place_meeting(x, y + yspd, oWall)) yspd = 0;
+
+// 4. Aply movement
+	x += xspd;
+	y += yspd;
+
+// 5. set sprite by direction
+
 mask_index = sprite[DOWN];
-if yspd == 0
-	{
-	if xspd > 0 {face = RIGHT};
-	if xspd < 0 {face = LEFT};
-	}
-if xspd > 0 && face == LEFT {face = RIGHT};
-if xspd < 0 && face == RIGHT {face = LEFT};
-if xspd == 0
-	{
-	if yspd > 0 {face = DOWN};
-	if yspd < 0 {face = UP};
-	}
-if yspd > 0 && face == UP {face = DOWN};
-if yspd < 0 && face == DOWN {face = UP};
+if (xspd != 0 || yspd != 0) { //esta parte estas declarando igual entonces puedes volverlo un OR
+    if (xspd > 0) face = RIGHT;
+    else if (xspd < 0) face = LEFT;
+    else if (yspd > 0) face = DOWN;
+    else if (yspd < 0) face = UP;
+}
 sprite_index = sprite[face];
 
-//collisions
-if place_meeting(x + xspd, y, oWall) == true
-	{
-	xspd = 0;
-	}
-	
-if place_meeting(x, y + yspd, oWall) == true
-	{
-	yspd = 0;
-	}	
-	
-	
-	
-	//warper pause collission before entering new room
-if instance_exists(oPauser)
-	{
-	xspd=0;
-	yspd=0;
-	}
-	
-	//textbox stop moving
-if instance_exists(oTextBox) 
-	{
-	can_move = false;
-	depth = -bbox_bottom;
-
-
-	} else{
-	
-	can_move = true;
-	}
-
-//move the player
-x += xspd; 
-y += yspd;
-
-//animate
-if xspd == 0 && yspd == 0 && face == DOWN 
-	{
-	sprite_index = sprRed_Idle;
-	sprite_set_speed(sprite_index, 2, spritespeed_framespersecond); 
-	}
-if xspd == 0 && yspd == 0 && face == LEFT
-{
-	image_index= 0;
-
+// 6. resting animation 
+if (xspd == 0 && yspd == 0) {
+    switch (face) {
+        case DOWN: sprite_index = sprRed_Idle; break;
+        case LEFT: image_index = 0; break;
+        case RIGHT: image_index = 0; break;
+        case UP: image_index = 0; break;
+    }
 }
 
-if xspd == 0 && yspd == 0 && face == RIGHT
-{
-	image_index= 0;
-
-}
-
-if xspd == 0 && yspd == 0 && face == UP
-{
-	image_index= 0;
-
-}
-
-		//asleep player when starting game in bath_start
-if (room == rmBath_Start) 
-{
-//cant move
-can_move = false;
-
-
-//set sleeping sprite
-sprite_index = spr_sleeping;
-sprite_set_speed(sprite_index, 2, spritespeed_framespersecond); 
-
-} 
-//waking player when in bath_start2
-else if (room == rmBath_Start_2) 
-{
-can_move = false;
-//set waking sprite
-sprite_index = spr_waking;
-sprite_set_speed(sprite_index, 3, spritespeed_framespersecond); 
-
+// 7. Special animation in each room
+if (room == rmBath_Start) {
+    can_move = false;
+    sprite_index = spr_sleeping;
+    sprite_set_speed(sprite_index, 2, spritespeed_framespersecond);
+} else if (room == rmBath_Start_2) {
+    can_move = false;
+    sprite_index = spr_waking;
+    sprite_set_speed(sprite_index, 3, spritespeed_framespersecond);
+} else {
+    sprite_set_speed(sprite_index, 8, spritespeed_framespersecond);
 }
 
 
-else { 
-	//take out of passiv
-	can_move = true;
-	sprite_set_speed(sprite_index, 8, spritespeed_framespersecond); }
-	
-	
-
-//running 
-if (keyboard_check(vk_shift)) {
-	running = true;
-} else
-	{
-	running = false;
-	}
+// 8. Running 
+running = keyboard_check(vk_shift);
 move_spd = base_spd;
 if (running) {
-	move_spd *= run_multiplier;
-	sprite_set_speed(sprite_index, 15 ,spritespeed_framespersecond);
-	}
+    move_spd *= run_multiplier;
+    sprite_set_speed(sprite_index, 15, spritespeed_framespersecond);
+}
 
-
-//depth
+// 9. Deepth
 depth = -bbox_bottom;
