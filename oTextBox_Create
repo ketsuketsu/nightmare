@@ -1,41 +1,77 @@
 depth = -9999;
 
-//textbox parameters
+// ──────────────────────── Textbox parameters ────────────────────────
 textbox_width = 200;
 textbox_height = 64;
 border = 8;
 line_sep = 12;
-line_width = textbox_width - border*2;
+line_width = textbox_width - border * 2;
+
+txtb_spr = [];
 txtb_spr[0] = sprTextBox;
 txtb_img = 0;
-txtb_img_spd = 6/60;
+txtb_img_spd = 6 / 60;
 
-
-//text
+// ──────────────────────── Text content ────────────────────────
 page = 0;
 page_number = 0;
+
+text = [];
 text[0] = "";
-text_length[0] = string_length(text[0]);
-char[0, 0] = "";
-char_x[0, 0] = "";
-char_y[0, 0] = "";
+text_length = [];
+text_length[0] = 0;
+
+char = array_create(1000, "");
+char_x = array_create(1000, 0);
+char_y = array_create(1000, 0);
+
 draw_char = 0;
-text_spd = 0.3;
-//options
+text_spd = 0.4;
+
+// ──────────────────────── Offsets and layout ────────────────────────
+text_x_offset = [];
+text_x_offset[0] = 0;
+
+portrait_x_offset = [];
+portrait_x_offset[0] = 0;
+
+speaker_sprite = [];
+speaker_sprite[0] = noone;
+
+speaker_side = [];
+speaker_side[0] = 1;
+
+// ──────────────────────── Line breaks ────────────────────────
+line_break_offset = [];
+line_break_offset[0] = 0;
+
+line_break_num = [];
+line_break_num[0] = 0;
+
+line_break_pos = array_create(100, 0); // reserva espacio
+
+// ──────────────────────── Options ────────────────────────
+option = [];
 option[0] = "";
+
+option_link_id = [];
 option_link_id[0] = -1;
+
 option_pos = 0;
 option_number = 0;
 last_selected = 0;
 
-setup = false;
-
-//sound
+// ──────────────────────── Sound ────────────────────────
+snd = [];
 snd_delay = 4;
 snd_count = snd_delay;
 
-//efects
+// ──────────────────────── Efectos ────────────────────────
 scr_set_defaults_for_text();
 last_free_space = 0;
 text_pause_timer = 0;
 text_pause_time = 10;
+
+
+// ──────────────────────── Control ────────────────────────
+setup = false;
