@@ -3,11 +3,10 @@ function scr_game_text(_text_id){
 switch(_text_id) {
 	
 case"starting_text":
-	scr_text("You have been asleep for a while.... ");
+	scr_text("You have been asleep for a while now.... ");
 	scr_text("You start to feel your arms and legs, your nerves and skin are tingling..");
 	scr_text("You breathe in and out peacefully, your lungs and heart full of oxygen. ");
-	scr_text("You start to drift out for a little bit, waiting for the right time to wake up.");
-	scr_text("...for the right time to wake up.");
+	scr_text("You are waiting for the right time to wake up.");
 	scr_text("...time to wake up.");
 		scr_text_float(11,19);
 	scr_text("...wake up.");
@@ -30,24 +29,67 @@ case"starting_text2":
 		
 	
 case "left_sink":
-	scr_text("There are rose petals scattered everywhere...", "no-sprite");
+    var r = irandom(3);
+	    switch (r) {
+			case 0:
+	scr_text("There are rose petals scattered on top of the sink.");
 			break;
-			
+			case 1:
+			scr_text("You can't see your reflection on the mirror.");
+			break;
+			case 3:
+			scr_text("Smells like cleaning supplies and dust.");
+			break;
+		}
 case "right_sink":
-	scr_text("There's a note taped to the mirror wall..", "no-sprite");
-		scr_option("Read it.", "right_sink - read");
+	scr_text("There's a note taped to the mirror wall..");
+		scr_option("Read it.", "right_sink - read it");
 	break;
-		case "right_sink - read":
+		case "right_sink - read it":
 		scr_text("IF YOU'RE IN NEED OF A NEW DREAM BUY ONE TODAY AT THE GREENERY MALL SALE!:o)", "no-sprite2");
 			scr_text_color(0, 76, c_teal, c_teal, c_teal, c_teal);
 			scr_text_shake(1,76);
-			scr_text("That's a weird way of advertising something..", "red-confused");
-		break;
-				
+			scr_text("That's a weird way of advertising something..", "red-worried");
+			global.seen_right_sink = true;
+			show_debug_message(">> right sink seen");
+			break;
+case "right_sink - seen":
+	global.seen_right_sink = true;
+	show_debug_message(">>activated FLAG: seen_right_sink");
+	break;
 
+case "dusteye":
+//variable created
+	if (!variable_global_exists("seen_right_sink")) {
+		    global.seen_right_sink = false;
+	}
+	//flag is ON
+	if (global.seen_right_sink) {
+		show_debug_message(">> detected FLAG: seen_right_sink = TRUE");
+		scr_text("A-are you a mouse?", "red-confused");
+		scr_text("GYHAAAAA!! A DAYDREAM SAW ME!!! IM SORRY!! GYHAA", "dusteye", -1);
+		scr_text("No! Don't apologize! I saw you run behind me..", "red-uncomfy");
+		scr_text("I just.. I don't know where I am", "red-worried");
+		scr_text("y-youre gonna turn me into particles-gyhaa?!", "dusteye", -1);
+		scr_text("No, I don't think I can do that..", "red");
+		scr_text("ahh~ thankies for sparing my lowly life daydreamer Red! im just a smol dusteye passing by-gyhaa", "dusteye", -1);
+		scr_text("My name is Red, little one.", "red-happy");
+			scr_option("What is this place?", "dusteye - place explanation");
+			break;
+			}
+	case "dusteye - place explanation":
+				scr_text("Can you tell me about this place? I don't remember falling asleep here.", "red");
+				scr_text("OH! THIS IS THE SUBWAY STATION-gyhaa! is ur first time using the subway?", "dusteye", -1);
+				scr_text("I'm not sure about that but I do remember boarding the subway.", "red-worried");
+				scr_text("well be careful walking around the station hub! there are a lot of hallways and doors! it gets VERY CONFUSING! GYHAA", "dusteye", -1);
+				scr_text("Oh thanks for letting me know, I- feel kinda dizzy still.. probably fell asleep in a weird position or something.", "red");
+				scr_text("if u need any help ill let my friends know that youre a dusteye friend-gyhaa we'll help u miss Red", "dusteye", -1);
+		break; 
+		
+	
 case "red_wc":
-	scr_text ("The toilet is filled with an unrecognizable red water.", "no-sprite");
-	scr_text ("You avoid the thought of dipping your hand in.", "no-sprite");
+	scr_text ("The toilet is filled with an unrecognizable red water.");
+	scr_text ("You avoid the thought of dipping your hand in.");
 	scr_text ("I never wanted to do that...", "red-uncomfy");
 	break;
 		
@@ -56,33 +98,33 @@ case "blue_door":
     var r = irandom(2);
     switch (r) {
         case 0:
-            scr_text("You can't enter this door, you're not blue.", "no-sprite");
-			 scr_text_color(0, 8, c_blue, c_blue, c_blue, c_blue);
+            scr_text("You can't enter this door, you're not blue.");
+			 scr_text_color(38, 42, c_blue, c_blue, c_blue, c_blue);
             break;
         case 1:
-            scr_text("This door doesn't respond to non-blue people.", "no-sprite");
+            scr_text("This door doesn't respond to non-blue people.");
             break;
         case 2:
-            scr_text("BLUE ACCESS ONLY. YOU ARE RED.", "no-sprite");
+            scr_text("BLUE ACCESS ONLY. YOU ARE RED.");
             break;
     }
     break;
 	
 case "toilet_paper":
-	scr_text("The classic, original TP.", "no-sprite");
+	scr_text("The classic, original TP.");
 	break;
 	
 case "green_poster":
-	scr_text("A poster ad for something, it's very green. ", "no-sprite");
+	scr_text("A poster ad for something, it's very green.");
 	scr_text_color(36,44, c_green, c_green, c_green, c_green);
 	break;
 
 case "green_poster2":
-	scr_text("Is that the mascot of a supermarket chain?", "no-sprite");
+	scr_text("Is that the mascot of a supermarket chain?");
 	break;
 
 case "clown_ads":
-	scr_text("Paper flyers for an overnight sale event...taking place...at Gr-", "no-sprite");
+	scr_text("Flyers for an overnight sale event.");
 	global.seen_clown_ads = true;
 	show_debug_message(">> Viste el cartel de los payasos");
 	break;
@@ -94,11 +136,11 @@ case "clown_ads - seen":
 
 			
 case "blue":
-//crear la variable
+//variable created
 	if (!variable_global_exists("seen_clown_ads")) {
 	    global.seen_clown_ads = false;
 	}
-//la bandera esta activada
+//flag is ON
 	if (global.seen_clown_ads) {
 		show_debug_message(">> FLAG detectada: seen_clown_ads = TRUE");
 		scr_text("OH NO! NO! NO! YOU DON'T want to meddle with CLOWNS!!!", "blue-disgust", -1);
@@ -106,7 +148,7 @@ case "blue":
 		scr_text("Wh-who.. Clowns?", "red-confused");
 			scr_option("What are clowns?", "blue - clown explanation");
 			scr_option("Do clowns live in here?", "blue - clown danger");
-//la bandera no esta activada		
+//flag is OFF
 	} else {
 		show_debug_message(">> FLAG NO activada: seen_clown_ads = FALSE");
 		scr_text("hi Red!!!", "blue-happy", -1);
@@ -139,7 +181,7 @@ case "blue":
 					break;	
 					
 			case "blue - clown explanation":
-				scr_text("What do you mean clowns? Like the guys with the funny makeup and unfunny jokes?", "red-confused");
+				scr_text("What do you mean clowns? Like the guys with the funny makeup and unfunny jokes?", "red-worried");
 				scr_text("they might look harmless but they are extremely chaotic and mischevious!", "blue-disgust", -1);
 				scr_text("Well if I get to know them they would probably turn out to be regular people in costumes.", "red");
 				scr_text("i wouldn't like that one bit...", "blue", -1);
