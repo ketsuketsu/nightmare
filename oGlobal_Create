@@ -1,0 +1,3 @@
+//textbox flags
+global.seen_clown_ads = false;
+global.seen_right_sink = false;
