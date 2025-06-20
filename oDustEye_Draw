@@ -1,0 +1,3 @@
+draw_self();
+//draw_text(x, y - 16, "X: " + string(x) + ", Y: " + string(y));
+//LO DE ARRIBA MUETRA CORDENADAS XD
