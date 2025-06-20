@@ -1,0 +1,20 @@
+// Mostrar solo cuando la bandera esté activa y ya no haya texto
+if (global.seen_right_sink && !instance_exists(oTextBox)) {
+
+    // Si no ha llegado todavía al objetivo
+    if (!has_moved) {
+        move_towards_point(objetivo_x, objetivo_y, velocidad);
+        
+        // Si está suficientemente cerca, detener
+        if (point_distance(x, y, objetivo_x, objetivo_y) < 2) {
+            x = objetivo_x;
+            y = objetivo_y;
+            speed = 0;
+            has_moved = true;
+        }
+    }
+}
+
+
+// Mensaje de depuración 
+show_debug_message("DustEye posición: " + string(x) + ", " + string(y));
