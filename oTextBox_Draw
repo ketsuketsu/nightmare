@@ -26,8 +26,8 @@ if setup == false
 		portrait_x_offset[p] = 8;
 		//character on the right
 		if speaker_side[p] == -1{
-			text_x_offset[p] = 5;
-			portrait_x_offset[p] = 130;
+			text_x_offset[p] = 10;
+			portrait_x_offset[p] = 140;
 		}
 		//no character (center the textbox on the screen)
 		if speaker_sprite[p] == noone {
