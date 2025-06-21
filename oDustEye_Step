@@ -11,6 +11,7 @@ if (global.seen_right_sink && !instance_exists(oTextBox)) {
             y = objetivo_y;
             speed = 0;
             has_moved = true;
+			sprite_index = sprEyeDust_1;
         }
     }
 }
